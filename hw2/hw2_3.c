@@ -26,8 +26,6 @@ int main(int argc, char *argv[])
     char *target = argv[2];
     char path[MAX_PATH] = "";
 
-    // printf("%s",strcat(start_dir,"test"));
-
     int ret = FindFile(start_dir, target, path);
 
     if (ret)
@@ -44,76 +42,69 @@ int FindFile(char *start_dir, char *target, char *path)
     DIR *dp;
     struct dirent *dent;
 
-    if ((dp = opendir(start_dir)) == NULL){
+    if ((dp = opendir(start_dir)) == NULL)
+    {
         return 0;
     }
 
-    while (( dent = readdir(dp))){
+    while ((dent = readdir(dp)))
+    {
 
-      printf("%s\n", dent->d_name);
-        if ( (!strcmp( dent->d_name, target)) && 
-        (dent->d_type != 4) ){
+        if ((!strcmp(dent->d_name, target)) &&
+            (dent->d_type != 4))
+        {
 
-            printf("%d", dent->d_type);
-
-            char location[MAX_PATH]= "";
+            char location[MAX_PATH] = "";
 
             strcat(location, start_dir);
             strcat(location, "/");
             strcat(location, target);
             strcat(path, location);
 
-            printf("%s",path);
-            
-            
             closedir(dp);
             return 1;
         }
     }
     closedir(dp);
-  
 
-
-  if ((dp = opendir(start_dir)) == NULL){
-      printf("oper false in 2");
+    if ((dp = opendir(start_dir)) == NULL)
+    {
+        printf("oper false in 2");
         return 0;
     }
 
-    int result = 0 ;
-    while (( dent = readdir(dp))){
-      printf("%s %d\n",dent->d_name,dent->d_type);      
-      if(dent->d_type == 4){
+    int result = 0;
+    while ((dent = readdir(dp)))
+    {
 
-        if (
-          strcmp(dent->d_name, ".")&& 
-          strcmp(dent->d_name, "..") ) {
+        if (dent->d_type == 4)
+        {
 
-          char sub[MAX_PATH]= "";
+            if (
+                strcmp(dent->d_name, ".") &&
+                strcmp(dent->d_name, ".."))
+            {
 
-          strcat(sub, start_dir);
-          strcat(sub, "/");
-          strcat(sub, dent->d_name);
-          
-          result = FindFile(sub, target, path);
+                char sub[MAX_PATH] = "";
 
-          if (result){
-            printf("오태식이 찾아왔구나!");
-            closedir(dp);
-            return 1;
-          }
-    
+                strcat(sub, start_dir);
+                strcat(sub, "/");
+                strcat(sub, dent->d_name);
 
-          
+                result = FindFile(sub, target, path);
 
+                if (result)
+                {
+
+                    closedir(dp);
+                    return 1;
+                }
+            }
+
+            int result = 0;
         }
-        
-
-        int result = 0 ;
-      
-      }
     }
     closedir(dp);
-    
 
     // int result = 0 ;
     // if ((dp = opendir(start_dir)) == NULL){

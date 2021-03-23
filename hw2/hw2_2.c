@@ -26,6 +26,8 @@ int main()
         }
         else printf("\n");
     }
+
+    closedir(dp);
     
 
     return 0;
