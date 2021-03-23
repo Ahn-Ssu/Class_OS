@@ -40,14 +40,11 @@ int main(int argc, char *argv[])
 
 int FindFile(char *start_dir, char *target, char *path)
 {
-  printf("now start_dir : %s\n",start_dir);
-  printf("now target : %s\n",target);
-  printf("now path : %s\n",path);
+
     DIR *dp;
     struct dirent *dent;
 
     if ((dp = opendir(start_dir)) == NULL){
-      printf("oper false in 1");
         return 0;
     }
 
@@ -56,18 +53,25 @@ int FindFile(char *start_dir, char *target, char *path)
       printf("%s\n", dent->d_name);
         if ( (!strcmp( dent->d_name, target)) && 
         (dent->d_type != 4) ){
-            // do something
+
             printf("%d", dent->d_type);
+
+            char location[MAX_PATH]= "";
+
+            strcat(location, start_dir);
+            strcat(location, "/");
+            strcat(location, target);
+            strcat(path, location);
+
+            printf("%s",path);
             
             
-            
-            printf("find!\n");
             closedir(dp);
             return 1;
         }
     }
     closedir(dp);
-    printf("못찾았어요\n");
+  
 
 
   if ((dp = opendir(start_dir)) == NULL){
@@ -75,13 +79,34 @@ int FindFile(char *start_dir, char *target, char *path)
         return 0;
     }
 
+    int result = 0 ;
     while (( dent = readdir(dp))){
+      printf("%s %d\n",dent->d_name,dent->d_type);      
+      if(dent->d_type == 4){
 
-      
-      if( (dent->d_type == 4) 
-      && (!strcmp(dent->d_name, "."))
-      && (!strcmp(dent->d_name, "..")) ){
-        printf("This is dir %s\n", dent->d_name);
+        if (
+          strcmp(dent->d_name, ".")&& 
+          strcmp(dent->d_name, "..") ) {
+
+          char sub[MAX_PATH]= "";
+
+          strcat(sub, start_dir);
+          strcat(sub, "/");
+          strcat(sub, dent->d_name);
+          
+          result = FindFile(sub, target, path);
+
+          if (result){
+            printf("오태식이 찾아왔구나!");
+            closedir(dp);
+            return 1;
+          }
+    
+
+          
+
+        }
+        
 
         int result = 0 ;
       
