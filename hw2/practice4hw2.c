@@ -38,7 +38,8 @@ int main()
     printf("ls\n");
     while ((dent = readdir(dp)))
     {
-        printf("%s ", dent->d_name);
+        printf("name :%s ", dent->d_name);
+        printf("type : %c\n", dent->d_type);
     }
     printf("\n");
 
@@ -64,7 +65,8 @@ int main()
     printf("ls\n");
     while ((dent = readdir(dp)))
     {
-        printf("%s ", dent->d_name);
+        printf("name :%s ", dent->d_name);
+        printf("type : %d\n", dent->d_type);
     }
     printf("\n");
 
@@ -84,7 +86,8 @@ int main()
     printf("ls\n");
     while ((dent = readdir(dp)))
     {
-        printf("%s ", dent->d_name);
+        printf("name :%s ", dent->d_name);
+        printf("type : %d\n", dent->d_type);
     }
     printf("\n");
 
@@ -104,7 +107,8 @@ int main()
     printf("ls\n");
     while ((dent = readdir(dp)))
     {
-        printf("%s ", dent->d_name);
+        printf("name :%s ", dent->d_name);
+        printf("type : %d\n", dent->d_type);
     }
     printf("\n");
 
