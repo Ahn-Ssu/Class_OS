@@ -46,7 +46,7 @@ int main()
 
             if (argv[1] == NULL) // cd 만 입력했을때 홈 디렉토리로 가주는 것
             {
-                chdir(getenv("HOME")) 
+                chdir(getenv("HOME"));
             }
             else if (!strcmp(argv[1],"~")){
                 chdir(getenv("HOME"));
