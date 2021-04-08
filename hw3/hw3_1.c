@@ -36,6 +36,6 @@ int main(int argc, char*argv[]){
 
   printf("start_time = (%ld %ld), %d:%d:%d\n", start_time.tv_sec, start_time.tv_usec, start.tm_hour, start.tm_min, start.tm_sec);
   printf("end_time   = (%ld %ld), %d:%d:%d\n", end_time.tv_sec, end_time.tv_usec, end.tm_hour, end.tm_min, end.tm_sec);
-    printf("elapsed time = %ld.%06ld sec\n",end_time.tv_sec-start_time.tv_sec, end_time.tv_usec-start_time.tv_usec);  
+  printf("elapsed time = %ld.%06ld sec\n",end_time.tv_sec-start_time.tv_sec, end_time.tv_usec-start_time.tv_usec);  
 
 }
