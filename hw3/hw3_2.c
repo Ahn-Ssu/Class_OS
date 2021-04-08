@@ -41,7 +41,7 @@ void print_fileInfo(char filename[]){
   printf("stat of file %s\n", filename);
   printf("    st_dev = %ld\n", st.st_dev);
   printf("    st_ino = %ld\n", st.st_ino);
-  printf("    st_mode = %d\n", st.st_mode);
+  printf("    st_mode = %o (octal)\n", st.st_mode);
   printf("    st_uid = %d\n", st.st_uid);
   printf("    st_gid = %d\n", st.st_gid);
   printf("    st_size = %ld\n", st.st_size);
