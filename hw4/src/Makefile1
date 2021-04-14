@@ -1,0 +1,13 @@
+all: hw4_1
+
+hw4_1: hw4_1.o Console.o
+	gcc hw4_1.o Console.o -o hw4_1
+
+hw4_1.o: hw4_1.c
+	gcc -c hw4_1.c
+
+Console.o: Console.c
+	gcc -c Console.c
+
+clean:
+	rm hw4_1 hw4_1.o Console.o

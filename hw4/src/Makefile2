@@ -1,0 +1,16 @@
+all: hw4_2
+
+hw4_2: hw4_2.o KeyBuffer.o Console.o
+	gcc hw4_2.o KeyBuffer.o Console.o -o hw4_2
+
+hw4_2.o: hw4_2.c
+	gcc -c hw4_2.c
+
+KeyBuffer.o: KeyBuffer.c
+	gcc -c KeyBuffer.c
+
+Console.o: Console.c
+	gcc -c Console.c
+
+clean:
+	rm hw4_2 hw4_2.o KeyBuffer.o Console.o

@@ -1,0 +1,22 @@
+all: hw4_3a hw4_3b
+
+hw4_3a: hw4_3a.o KeyBuffer.o Console.o
+	gcc hw4_3a.o KeyBuffer.o Console.o -o hw4_3a -lrt
+
+hw4_3b: hw4_3b.o KeyBuffer.o Console.o
+	gcc hw4_3b.o KeyBuffer.o Console.o -o hw4_3b -lrt
+
+hw4_3a.o: hw4_3a.c
+	gcc -c hw4_3a.c
+
+hw4_3b.o: hw4_3b.c
+	gcc -c hw4_3b.c
+
+KeyBuffer.o: KeyBuffer.c
+	gcc -c KeyBuffer.c
+
+Console.o: Console.c
+	gcc -c Console.c
+
+clean:
+	rm hw4_3a hw4_3b hw4_3a.o hw4_3b KeyBuffer.o Console.o
