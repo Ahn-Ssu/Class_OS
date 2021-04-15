@@ -14,24 +14,47 @@ void InitKeyBuffer(KeyBuffer *buffer)
 
 int IsEmpty(KeyBuffer *buffer)
 {
-	// TO DO: implement this function
+	int result;
+	// 버퍼가 circular니까 사이즈로 나눠줌
+	// size보다 index가 -1 작음
+	result = buffer->in % buffer->size == buffer->out% buffer->size ? 1 : 0;
+	return result;
 }
 
 int IsFull(KeyBuffer *buffer)
 {
-	// TO DO: implement this function
+	int result;
+	// circular Queue에서, in의 나머지가 out보다 하나차이일 때 Q full
+	result = (buffer->in+1)%buffer->size== buffer->out%buffer->size ? 1 : 0;
+	return result;
 }
+
 
 void InsertKey(KeyBuffer *buffer, int key)
 {
 	// TO DO: implement this function
 	// if the buffer is full, do nothing
+	if (!IsFull(buffer))
+	{
+		// 버퍼가 가지고 있는 공간에, in번째 위치에 추가하고 증가
+		buffer->buffer[buffer->in] = key;
+		buffer->in = (buffer->in+1) % buffer->size;
+	}
 }
 
 int DeleteKey(KeyBuffer *buffer)
 {
 	// TO DO: implement this function
 	// if the buffer is empty, do nothing
+	if (!IsEmpty(buffer))
+	{
+		int result;
+		// 버퍼 구조체가 가지고 있는 공간에서, out에 위치한 key를 뽑고, out증가
+		result = buffer->buffer[buffer->out%buffer->size];
+		buffer->out = (buffer->out+1) % buffer->size;
+		return result;
+	}
+	return 0;
 }
 
 int GetKey(KeyBuffer *buffer, int idx)
@@ -39,15 +62,13 @@ int GetKey(KeyBuffer *buffer, int idx)
 	return buffer->buffer[idx];
 }
 
-
 void DisplayKeyBuffer(int x, int y, KeyBuffer *buffer)
 {
 	gotoxy(x, y);
 
 	printf("Key Buffer = [");
-	for(int i = buffer->out; i != buffer->in; i = (i + 1) % buffer->size)
+	for (int i = buffer->out; i != buffer->in; i = (i + 1) % buffer->size)
 		printf("%c", GetKey(buffer, i));
 
 	printf("] ");
 }
-
