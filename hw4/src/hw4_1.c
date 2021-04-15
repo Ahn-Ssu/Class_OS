@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
 
 	// retrieve the size of window
 	int screen_width = getWindowWidth();
-	int screen_height = getWindowHeight() - 3;
+	int screen_height = getWindowHeight()-3; // 여기에서 -3을 해줬는데, 이게 하단에 공백이 잡히는데 상단으로 잡혀야 맞는 설계 아닌가..
 
 	printf("i: up, j: left, k: down, l: right, c: change color, q: quit\n");
 	printf("screen size: %d x %d\n", screen_width, screen_height);
@@ -24,7 +24,9 @@ int main(int argc, char *argv[])
 
 	int oldx = 0, oldy = 0;
 	while(repeat){
-		// TO DO: save current coordinate in (oldx, oldy)
+		// TO DO: save current coordinate in (oldx, oldy) 
+
+		oldx = x; oldy =y;
 
 		gotoxy(1, 3);
 		printf("x = %3d, y = %3d", x, y);
@@ -32,33 +34,22 @@ int main(int argc, char *argv[])
 		gotoxy(screen_width, 1);	// move cursor to upper right corner
 		key = getch();		// read a key not waiting for ENTER
 
-		// these two lines are only to show how to use gotoxy() and getch()
-		// remove them when you complete the homework
-		gotoxy(1, 4);
-		printf("key = %c (%3d)\n", key, key);
-/*
-		TO DO: implement the following actions
 
-		if key is 'i', 'j', 'k', or 'l', move the coordinate accordingly
-			'i': move up
-			'j': move left
-			'k': move down
-			'l': move right
+		// (1 <= x <= screen_width, 1 <= y <= screen_height)
+		if(key =='i') 1<y? y--: y; // 'i': move up
+		if(key =='j') 1<x? x--: x; // 'j': move left
+		if(key =='k') y<screen_height? y++:y; // 'k': move down
+		if(key =='l') x<screen_width? x++: x; // 'l': move right
 
-			Note! The coordinate should be in the valid range.
-			(1 <= x <= screen_width, 1 <= y <= screen_height)
-
-		if key is 'c', change color
-			toggle c between ' ' and '*' 
-
-		if key is 'q', break the loop
-			
-*/
+		if(key =='c')c = c=='*'?' ':'*'; // toggle c between ' ' and '*' 
 		
+		if(key =='q')break; //if key is 'q', break the loop
 
 		// TO DO: print c at (oldx, oldy)
-
+		DrawLine(oldx, oldy, x,y, c);
 		// TO DO: print '#' at (x, y)
+		gotoxy(x, y);
+		putchar('#'); // putchar는 좌표에 찍힘
 	}
 
 	clrscr();
