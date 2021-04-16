@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
 	KeyBuffer *key_buffer = NULL;
 	// TO DO: map the shared memory file and receive the return address into key_buffer
 	//	check if the file was successfully mapped
-	key_buffer = mmap(0, buffer_size, PROT_WRITE, MAP_SHARED, shm_fd, 0);
+	key_buffer = mmap(0, buffer_size, PROT_WRITE|PROT_READ, MAP_SHARED, shm_fd, 0);
 	if (key_buffer == MAP_FAILED)
 	{
 		perror("mmap");

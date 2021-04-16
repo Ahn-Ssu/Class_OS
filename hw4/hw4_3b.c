@@ -1,10 +1,12 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/types.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
+#include <errno.h>
 
 #include "Console.h"
 #include "KeyBuffer.h"
@@ -18,20 +20,25 @@ int main(int argc, char *argv)
 	//  check if the file was successfully open
 	int shm_fd;
 
-	shm_fd = shm_open(SHM_FILE, O_RDONLY, 0666);
-	if ( shm_fd == -1) errExit("shm_open");
+	shm_fd = shm_open(SHM_FILE, O_RDWR, 0666);
+	if ( shm_fd == -1){
+	       perror("shm_open");
+       exit(0);
+	} //      errExit("shm_open");
 
 
 	int buffer_size = sizeof(KeyBuffer);
 
 	// TO DO: map the shared memory file and receive the return address into key_buffer
 	// check if the file was successfully mapped
-	KeyBuffer *keybuffer = mmap(0, buffer_size, PROT_READ, MAP_SHARED, shm_fd, 0);
-	if (keybuffer == MAP_FAILED)
-		errExit("mmap");
+	KeyBuffer *keybuffer = mmap(0, buffer_size, PROT_READ|PROT_WRITE, MAP_SHARED, shm_fd, 0);
+	if (keybuffer == MAP_FAILED){
+			perror("mmap");
+			exit(0);}
+	//	errExit("mmap");
 	// ?? mmap이 뭘 리턴하는가..
 	
-
+	if( keybuffer == NULL) printf("NULL");
 
 	int screen_width = getWindowWidth();
 	int screen_height = getWindowHeight() - 3;
@@ -91,7 +98,6 @@ int main(int argc, char *argv)
 
 		if(key =='c')c = c=='*'?' ':'*'; // toggle c between ' ' and '*' 
 		
-		if(key =='q')break; //if key is 'q', break the loop
 
 		// TO DO: print c at (oldx, oldy)
 		DrawLine(oldx, oldy, x,y, c);
