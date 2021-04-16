@@ -8,6 +8,8 @@
 
 
 void ParseCommand(char *command, int *argc, char *argv[]);
+
+
 int main(){
 	char command[MAX_CMD];
 	command[0] = command[MAX_CMD-1] = 0 ; 

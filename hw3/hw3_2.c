@@ -48,11 +48,6 @@ void print_fileInfo(char filename[]){
   printf("    st_atime = %d/%02d/%02d %02d:%02d:%02d\n", at.tm_year+1900, at.tm_mon+1, at.tm_mday, at.tm_hour, at.tm_min, at.tm_sec);
   printf("    st_mtime = %d/%02d/%02d %02d:%02d:%02d\n", mt.tm_year+1900, mt.tm_mon+1, mt.tm_mday, mt.tm_hour, mt.tm_min, mt.tm_sec);
   printf("    st_ctime = %d/%02d/%02d %02d:%02d:%02d\n", ct.tm_year+1900, ct.tm_mon+1, ct.tm_mday, ct.tm_hour, ct.tm_min, ct.tm_sec);
-
-
-
-  
-
 }
 
 void print_envInfo(){
