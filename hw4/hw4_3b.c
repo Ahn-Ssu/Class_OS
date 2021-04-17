@@ -53,6 +53,8 @@ int main(int argc, char *argv)
 	char c = '*';
 	int repeat = 1;
 
+	EnableCursor(0);
+
 	gotoxy(x, y);
 	putchar('#');
 
