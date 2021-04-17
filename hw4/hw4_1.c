@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
 
 	// retrieve the size of window
 	int screen_width = getWindowWidth();
-	int screen_height = getWindowHeight()-3; // 여기에서 -3을 해줬는데, 이게 하단에 공백이 잡히는데 상단으로 잡혀야 맞는 설계 아닌가..
+	int screen_height = getWindowHeight()-3; 
 
 	printf("i: up, j: left, k: down, l: right, c: change color, q: quit\n");
 	printf("screen size: %d x %d\n", screen_width, screen_height);
@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
 		DrawLine(oldx, oldy, x,y, c);
 		// TO DO: print '#' at (x, y)
 		gotoxy(x, y);
-		putchar('#'); // putchar는 좌표에 찍힘
+		putchar('#'); 
 	}
 
 	clrscr();

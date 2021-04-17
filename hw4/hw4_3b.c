@@ -36,7 +36,6 @@ int main(int argc, char *argv)
 			perror("mmap");
 			exit(0);}
 	//	errExit("mmap");
-	// ?? mmap이 뭘 리턴하는가..
 	
 	if( keybuffer == NULL) printf("NULL");
 
@@ -89,7 +88,7 @@ int main(int argc, char *argv)
 		DrawLine(oldx, oldy, x,y, c);
 		// TO DO: print '#' at (x, y)
 		gotoxy(x, y);
-		putchar('#'); // putchar는 좌표에 찍힘
+		putchar('#');
 	}
 
 	clrscr();
