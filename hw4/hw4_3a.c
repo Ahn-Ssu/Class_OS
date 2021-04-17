@@ -74,10 +74,12 @@ int main(int argc, char *argv[])
 
 	// TO DO: unmap and unlink the shared memory block
 
-	if (munmap(shm_fd, buffer_size) == -1)
+	if (munmap(key_buffer, buffer_size) == -1)
 	{
 		perror("munmap");
+		printf("Errrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
 		exit(0);
+
 	}
 	// errExit("munmap");
 

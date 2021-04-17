@@ -63,33 +63,19 @@ int main(int argc, char *argv)
 		// if the key is zero, repeat until a non-zero key is read
 		while(TRUE){
 			key = DeleteKey(keybuffer);
+			gotoxy(x,y);
+			putchar("#");
 			if (key != 0) break;
 		}
 
 
-/*
-		TO DO: implement the following actions
-
-		if key is 'i', 'j', 'k', or 'l', move the coordinate accordingly
-			'i': move up
-			'j': move left
-			'k': move down
-			'l': move right
-
-			Note! The coordinate should be in the valid range.
-			(1 <= x <= screen_width, 1 <= y <= screen_height)
-
-		if key is 'c', change color
-			toggle c between ' ' and '*' 
-
-		if key is 'q', break the loop
-			
-*/
-
 
 		// TO DO: print c at (oldx, oldy)
-
+		DrawLine(oldx, oldy, x, y, c);
 		// TO DO: print '#' at (x, y)
+		gotoxy(x,y);
+		putchar("#");
+
 		// (1 <= x <= screen_width, 1 <= y <= screen_height)
 		if(key =='i') 1<y? y--: y; // 'i': move up
 		if(key =='j') 1<x? x--: x; // 'j': move left
@@ -97,7 +83,7 @@ int main(int argc, char *argv)
 		if(key =='l') x<screen_width? x++: x; // 'l': move right
 
 		if(key =='c')c = c=='*'?' ':'*'; // toggle c between ' ' and '*' 
-		
+		if(key =='q') break;
 
 		// TO DO: print c at (oldx, oldy)
 		DrawLine(oldx, oldy, x,y, c);
