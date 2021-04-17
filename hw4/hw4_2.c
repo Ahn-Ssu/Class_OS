@@ -9,22 +9,31 @@ int main(int argc, char *argv[])
 	InitKeyBuffer(&key_buffer);
 
 	clrscr();
-	while(1){
+	while (1)
+	{
 		gotoxy(1, 1);
 		printf("Input a key (SPACE: delete a key, ESC: quit.): ");
 		int key = getch();
 
-		if(key == 27){			// ESC
+		if (key == 27)
+		{ // ESC
 			break;
-		} else if(key == ' '){
+		}
+		else if (key == ' ')
+		{
 			key = DeleteKey(&key_buffer);
 			gotoxy(1, 3);
-			if(key > 0){
+			if (key > 0)
+			{
 				printf("key \'%c\' was deleted     \n", key);
-			} else {
+			}
+			else
+			{
 				printf("The key buffer is emtpy!\n");
 			}
-		} else {
+		}
+		else
+		{
 			InsertKey(&key_buffer, key);
 		}
 
@@ -36,4 +45,3 @@ int main(int argc, char *argv[])
 
 	return 0;
 }
-

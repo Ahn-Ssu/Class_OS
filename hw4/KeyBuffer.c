@@ -15,7 +15,7 @@ void InitKeyBuffer(KeyBuffer *buffer)
 int IsEmpty(KeyBuffer *buffer)
 {
 	int result;
-	result = buffer->in % buffer->size == buffer->out% buffer->size ? 1 : 0;
+	result = buffer->in % buffer->size == buffer->out % buffer->size ? 1 : 0;
 	return result;
 }
 
@@ -23,10 +23,9 @@ int IsFull(KeyBuffer *buffer)
 {
 	int result;
 
-	result = (buffer->in+1)%buffer->size== buffer->out%buffer->size ? 1 : 0;
+	result = (buffer->in + 1) % buffer->size == buffer->out % buffer->size ? 1 : 0;
 	return result;
 }
-
 
 void InsertKey(KeyBuffer *buffer, int key)
 {
@@ -35,7 +34,7 @@ void InsertKey(KeyBuffer *buffer, int key)
 	if (!IsFull(buffer))
 	{
 		buffer->buffer[buffer->in] = key;
-		buffer->in = (buffer->in+1) % buffer->size;
+		buffer->in = (buffer->in + 1) % buffer->size;
 	}
 }
 
@@ -46,8 +45,8 @@ int DeleteKey(KeyBuffer *buffer)
 	if (!IsEmpty(buffer))
 	{
 		int result;
-		result = buffer->buffer[buffer->out%buffer->size];
-		buffer->out = (buffer->out+1) % buffer->size;
+		result = buffer->buffer[buffer->out % buffer->size];
+		buffer->out = (buffer->out + 1) % buffer->size;
 		return result;
 	}
 	return 0;
