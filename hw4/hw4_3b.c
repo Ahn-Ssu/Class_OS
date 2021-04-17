@@ -64,7 +64,7 @@ int main(int argc, char *argv)
 		while(TRUE){
 			key = DeleteKey(keybuffer);
 			gotoxy(x,y);
-			putchar("#");
+			putchar('#');
 			if (key != 0) break;
 		}
 
@@ -74,7 +74,7 @@ int main(int argc, char *argv)
 		DrawLine(oldx, oldy, x, y, c);
 		// TO DO: print '#' at (x, y)
 		gotoxy(x,y);
-		putchar("#");
+		putchar('#');
 
 		// (1 <= x <= screen_width, 1 <= y <= screen_height)
 		if(key =='i') 1<y? y--: y; // 'i': move up
