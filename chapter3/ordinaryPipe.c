@@ -3,6 +3,7 @@
 
 #include <unistd.h>
 #include <sys/types.h>
+#include <sys/wait.h>
 
 #define BUFFER_SIZE 25
 #define READ_END 0
@@ -30,6 +31,7 @@ int main(void){
 
     if (pid > 0 ){
         // parent
+        // wait(NULL); 이거 켜면 프로세스가 평생 기다림
         close(fd[READ_END]);
 
         write(fd[WRITE_END], write_msg, strlen(write_msg)+1);
