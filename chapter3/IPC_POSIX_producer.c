@@ -4,8 +4,10 @@
 #include <string.h>
 
 #include <fcntl.h>
+#include <unistd.h>
 #include <sys/shm.h>
 #include <sys/stat.h>
+#include <sys/mman.h>
 
 int main(){
     // the size (in bytes) of shared memory object 
@@ -29,7 +31,7 @@ int main(){
     ftruncate(shm_fd, SIZE);
 
     // memory map the shared memory object
-    ptr = mmap(0, SIZe, PROT_WRITE, MAP_SHARED, shm_fd, 0);
+    ptr = mmap(0, SIZE, PROT_WRITE, MAP_SHARED, shm_fd, 0);
 
     // write to the shared memory object
     sprintf(ptr, "%s", message0);
