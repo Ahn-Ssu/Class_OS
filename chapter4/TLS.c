@@ -19,7 +19,7 @@ void *func(void *arg)
 int main()
 {
     int ret;
-    pthread_thread[THREADS];
+    pthread_t thread[THREADS];
     int num;
 
     for (num = 0; num < THREADS; num++)
