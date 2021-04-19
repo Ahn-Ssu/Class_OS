@@ -18,15 +18,13 @@ int main()
         fprintf(stderr, "fork ffailed\n");
         exit(-1);
     }
-    else if (child_pid == 0)
+    else if (child_pid == 0) // child
     {
         printf("hi I'm child, my child_pid is [%d]\n",child_pid);
         printf("hi I'm child, my real_pid is [%d]\n", (int)getpid());
         execlp("/bin/ls", "ls", NULL);
-        // execlp 밑으로는 실행이 안됨 
-        printf("done \n\n");
     }
-    else
+    else // parent
     {
         printf("hi I'm parent, my pid is [%d]\n",child_pid);
         printf("hi I'm parent, my real_pid is [%d]\n", (int)getpid());
