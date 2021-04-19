@@ -12,6 +12,7 @@ void *func(void *arg)
 {
     int num = (int)arg;
     tls = num;
+    global = num;
     sleep(1);
     printf("Thread = %d | tls = %d | global = %d \n", num, tls, global);
 }
@@ -19,8 +20,8 @@ void *func(void *arg)
 int main()
 {
     int ret;
-    pthread_t thread[THREADS];
     int num;
+    pthread_t thread[THREADS];
 
     for (num = 0; num < THREADS; num++)
     {
