@@ -1,6 +1,6 @@
 /* open(2) */
 
-#include <sys/stat.h>
+#include <sys/stat.h> 
 #include <fcntl.h>
 
 int open(const char *pathname, int flags);

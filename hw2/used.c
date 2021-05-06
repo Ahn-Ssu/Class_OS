@@ -209,6 +209,3 @@ closedir(3)으로 DIR *를 close 한다.
 1) dirp
     - opendir로 생성된 DIR* 
 */
-
-
-

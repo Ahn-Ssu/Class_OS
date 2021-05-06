@@ -4,9 +4,6 @@
 #define MAX_CMD 2048
 #define MAX_ARG 256
 
-
-
-
 void ParseCommand(char *command, int *argc, char *argv[]);
 
 

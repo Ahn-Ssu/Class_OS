@@ -10,7 +10,6 @@ void print_envInfo();
 void print_fileInfo(char filename[]);
 
 int main(int args, char *argv[]){
-
   argv[1] == NULL? print_envInfo() : print_fileInfo(argv[1]) ;
 }
 

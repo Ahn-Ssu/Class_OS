@@ -17,7 +17,7 @@
 
 #include <time.h> 		// for time(), localtime()
 #include <sys/time.h> 	// for gettimeofday()
-#include <unistd.h>
+#include <unistd.h>		// for usleep()
 
 
 time_t time(time_t *tloc);
@@ -27,7 +27,7 @@ int usleep(useconds_t usec);
 
 struct tm
 
-    struct tm
+struct tm
 {
     int tm_sec;   /* 초: 0 ~ 59,(60,61윤초)*/
     int tm_min;   /* 분: 0 ~ 59*/

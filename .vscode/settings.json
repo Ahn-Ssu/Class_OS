@@ -15,6 +15,9 @@
         "utility": "c",
         "vector": "c",
         "stdio.h": "c",
-        "__locale": "c"
+        "__locale": "c",
+        "errno.h": "c",
+        "unistd.h": "c",
+        "mman.h": "c"
     }
 }

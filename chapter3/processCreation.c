@@ -20,14 +20,14 @@ int main()
     }
     else if (child_pid == 0) // child
     {
-        printf("hi I'm child, my child_pid is [%d]\n",child_pid);
-        printf("hi I'm child, my real_pid is [%d]\n", (int)getpid());
+        printf("hi I'm child, my var:child_pid is [%d]\n",child_pid); 
+        printf("hi I'm child, my _pid is [%d]\n", (int)getpid());
         execlp("/bin/ls", "ls", NULL);
     }
     else // parent
     {
-        printf("hi I'm parent, my pid is [%d]\n",child_pid);
-        printf("hi I'm parent, my real_pid is [%d]\n", (int)getpid());
+        printf("hi I'm parent, my var:child_pid  is [%d]\n",child_pid);
+        printf("hi I'm parent, my _pid is [%d]\n", (int)getpid());
         wait(NULL);
         printf("Child Completed\n");
         exit(0);
