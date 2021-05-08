@@ -46,6 +46,10 @@ void FillVector(Vector *vec, int dim, int dir)
 		if dir == 0, fill vec->data with 1, 2, ..., dim-1, dim
 		otherwise,   fill vec->data with dim, dim-1, ..., 2, 1
 	*/
+	if (dir == 0)
+		for(int i = 1 ; i <= vec->dim ; i++) vec->data[i-1] = i;
+	else
+		for(int i = 1 ; i <= vec->dim ; i++) vec->data[i-1] = vec->dim - (i-1);
 }
 
 float GetVectorData(Vector *vec, int idx)
@@ -60,8 +64,8 @@ void SetVectorData(Vector *vec, int idx, float v)
 
 float DotProduct_slow(Vector vec1, Vector vec2)
 {
-	if(vec1->dim != vec2->dim){
-		printf("Error! vec1->dim = %d, vec2->dim = %d\n", vec1->dim, vec2->dim);
+	if(vec1.dim != vec2.dim){
+		printf("Error! vec1->dim = %d, vec2->dim = %d\n", vec1.dim, vec2.dim);
 		return 0.F;
 	}
 	
@@ -83,6 +87,12 @@ float DotProduct(Vector *vec1, Vector *vec2)
 
 	// TO DO: Return the sum of vec1->data[i] * vec2->data[i],
 	//        for 0 <= i < vec->dim
+
+	float dot = 0.F;
+	for (int i = 0 ; i < vec1->dim ; i ++)
+		dot += vec1->data[i] * vec2->data[i] ;
+
+	return dot;
 }
 
 void DisplayVector(Vector *vec)
