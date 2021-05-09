@@ -62,8 +62,24 @@ DynamicVector* AllocVector(int dim)
 		5. Set vec->dim to dim
 
 		6. return vec
-
 	*/
+
+	vec = malloc(sizeof(DynamicVector));
+
+	if ( vec == NULL){
+		printf("Error! failed memory allocate to vec\n");
+		return NULL;
+	} 
+
+	vec->data = malloc(vec->dim*sizeof(float));
+
+	if (vec->data==NULL){
+		printf("Error! failed memory allocate to vec->data\n");
+		return NULL;
+	}
+
+	return vec;
+
 }
 
 void DeleteVector(DynamicVector *vec)
@@ -77,8 +93,10 @@ void DeleteVector(DynamicVector *vec)
 	/* TO DO:
 		free vec->data
 		free vec
-
 	*/
+
+	free(vec->data);
+	free(vec);
 }
 
 void FillVector(Vector *vec, int dim, int dir)
@@ -87,6 +105,10 @@ void FillVector(Vector *vec, int dim, int dir)
 	vec->dim = dim;
 
 	// TO DO: complete this function by reusing the code for hw5_1.c
+	if (dir == 0)
+		for(int i = 1 ; i <= vec->dim ; i++) vec->data[i-1] = i;
+	else
+		for(int i = 1 ; i <= vec->dim ; i++) vec->data[i-1] = vec->dim - (i-1);
 }
 
 float GetVectorData(Vector *vec, int idx)
@@ -108,6 +130,11 @@ float DotProduct(Vector *vec1, Vector *vec2)
 	}
 
 	// TO DO: complete this function by reusing the code for hw5_1.c
+	float dot = 0.F;
+	for (int i = 0 ; i < vec1->dim ; i ++)
+		dot += vec1->data[i] * vec2->data[i] ;
+
+	return dot;
 }
 
 void DisplayVector(Vector *vec)
