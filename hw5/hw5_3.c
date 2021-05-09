@@ -155,13 +155,6 @@ Matrix *MultiplyMatrix_MT(Matrix *mat1, Matrix *mat2, int no_thread)
 		The threads should run parallely.
 	*/
 
-// typedef struct {
-// 	int thread_idx;
-// 	int no_thread;
-// 	Matrix *mat1;
-// 	Matrix *mat2;
-// 	Matrix *res;
-// } ThreadParam;
 
     for (int i = 0 ; i < no_thread ; i ++){
         param[i].thread_idx = i;
@@ -169,9 +162,10 @@ Matrix *MultiplyMatrix_MT(Matrix *mat1, Matrix *mat2, int no_thread)
         param[i].mat1 = mat1;
         param[i].mat2 = mat2;
         param[i].res = res;
-
-        pthread_create(&tid[i], NULL, thread_fn, &param[i]);
     }
+    for(int i = 0 ; i< no_thread ; i++)
+        pthread_create(&tid[i], NULL, thread_fn, &param[i]);
+    
 
     for (int i = 0 ; i < no_thread ; i ++)
         pthread_join(tid[i], NULL);
