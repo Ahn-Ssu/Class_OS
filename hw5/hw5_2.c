@@ -71,7 +71,7 @@ DynamicVector* AllocVector(int dim)
 		return NULL;
 	} 
 
-	vec->data = (int*)malloc(vec->dim*sizeof(float));
+	vec->data = (float*)malloc(dim*sizeof(float));
 
 	if (vec->data==NULL){
 		printf("Error! failed memory allocate to vec->data\n");
