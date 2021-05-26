@@ -155,12 +155,13 @@ void* ThreadFn(void *vParam)
 
 		// TO DO: implement entry section
 		if(param->no_phil % 2 == 0){
-			pthread_mutex_lock(&(chopstick[param->no_phil]));
-			pthread_mutex_lock(&(chopstick[(param->no_phil+1) % NO_PHIL]));
+			pthread_mutex_lock(&(chopstick[ (param->no_phil+NO_PHIL-1) % NO_PHIL])); // left
+			pthread_mutex_lock(&(chopstick[param->no_phil])); // right
 		}
 		else{
-			pthread_mutex_lock(&(chopstick[(param->no_phil+NO_PHIL-1) % NO_PHIL]));
-			pthread_mutex_lock(&(chopstick[param->no_phil]));
+			pthread_mutex_lock(&(chopstick[param->no_phil])); // right
+			pthread_mutex_lock(&(chopstick[ (param->no_phil+NO_PHIL-1) % NO_PHIL])); // left
+			
 		}
 
 		state[idx] = EATING;
@@ -172,12 +173,12 @@ void* ThreadFn(void *vParam)
 		// TO DO: implement exit section
 		
 		if(param->no_phil % 2 == 0){
-			pthread_mutex_unlock(&(chopstick[param->no_phil]));
-			pthread_mutex_unlock(&(chopstick[(param->no_phil+1) % NO_PHIL]));
+			pthread_mutex_unlock(&(chopstick[ (param->no_phil+NO_PHIL-1) % NO_PHIL])); // left
+			pthread_mutex_unlock(&(chopstick[param->no_phil])); // right
 		}
 		else{
-			pthread_mutex_unlock(&(chopstick[(param->no_phil+NO_PHIL-1) % NO_PHIL]));
-			pthread_mutex_unlock(&(chopstick[param->no_phil]));
+			pthread_mutex_unlock(&(chopstick[param->no_phil])); // right
+			pthread_mutex_unlock(&(chopstick[ (param->no_phil+NO_PHIL-1) % NO_PHIL])); // left
 		}
 
 		state[idx] = THINKING;
