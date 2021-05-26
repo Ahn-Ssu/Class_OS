@@ -68,6 +68,7 @@ void* ThreadFn(void *vParam);
 
 
 // TO DO: declare and initialize a mutex for DisplayPhilosophers().
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
 // display philosophers' states
 void DisplayPhilosophers(int state[], int no_phil, int screen_width, int screen_height);
@@ -90,6 +91,11 @@ int main(int argc, char *argv[])
 	pthread_mutex_t chopstick[NO_PHIL];
 
 	// TO DO: initialize state and chopstick
+	//  ???? state already initialize...
+	for (int i=0; i < NO_PHIL ; i ++){
+		pthread_mutex_init(&chopstick[i], NULL);
+		state[i] = 0 ;
+	}
 
 	DisplayPhilosophers(state, NO_PHIL, screen_width, screen_height);
 
@@ -98,11 +104,14 @@ int main(int argc, char *argv[])
 		param[i].no_phil = NO_PHIL;
 
 		// TO DO: store state and chopstick in param[i]
+		param[i].chopstick = chopstick;
+		param[i].state = state;
 
 		param[i].screen_width = screen_width;
 		param[i].screen_height = screen_height;
 
 		// TO DO: create thread using ThreadFn and param[i] 
+		pthread_create(&tid[i], NULL, ThreadFn, &param[i]);
 	}
 
 	PrintXY(1, 1, "Press 'q' to quit!\n");
@@ -120,8 +129,12 @@ int main(int argc, char *argv[])
 	thread_cont = FALSE;					// terminate threads
 
 	// TO DO: wait for the threads
+	for(int i = 0 ; i< NO_PHIL; i ++){
+		pthread_join(tid[i],NULL);
+	}
 
 	// TO DO: destroy mutexes
+	pthread_mutex_destroy(&mutex);
 
 	clrscr();
 	printf("Bye!\n");
@@ -141,6 +154,14 @@ void* ThreadFn(void *vParam)
 	while(thread_cont){
 
 		// TO DO: implement entry section
+		if(param->no_phil % 2 == 0){
+			pthread_mutex_lock(&(chopstick[param->no_phil]));
+			pthread_mutex_lock(&(chopstick[(param->no_phil+1) % NO_PHIL]));
+		}
+		else{
+			pthread_mutex_lock(&(chopstick[(param->no_phil+NO_PHIL-1) % NO_PHIL]));
+			pthread_mutex_lock(&(chopstick[param->no_phil]));
+		}
 
 		state[idx] = EATING;
 
@@ -149,6 +170,15 @@ void* ThreadFn(void *vParam)
 		usleep((rand() % 500 + 500) * 1000);
 
 		// TO DO: implement exit section
+		
+		if(param->no_phil % 2 == 0){
+			pthread_mutex_unlock(&(chopstick[param->no_phil]));
+			pthread_mutex_unlock(&(chopstick[(param->no_phil+1) % NO_PHIL]));
+		}
+		else{
+			pthread_mutex_unlock(&(chopstick[(param->no_phil+NO_PHIL-1) % NO_PHIL]));
+			pthread_mutex_unlock(&(chopstick[param->no_phil]));
+		}
 
 		state[idx] = THINKING;
 		DisplayPhilosophers(state, no_phil, param->screen_width, param->screen_height);
@@ -162,6 +192,7 @@ void DisplayPhilosophers(int state[], int no_phil, int screen_width, int screen_
 // TO DO: make this function mutually exclusive using a mutex
 {
 	// TO DO: implement entry section
+	pthread_mutex_lock(&mutex);
 
 	int cx = (screen_width - 10) / 2;
 	int cy = screen_height / 2;
@@ -181,6 +212,7 @@ void DisplayPhilosophers(int state[], int no_phil, int screen_width, int screen_
 	fflush(stdout);
 
 	// TO DO: implement exit section
+	pthread_mutex_unlock(&mutex);
 }
 
 int CheckPhilosophers(int state[], int no_phil)
