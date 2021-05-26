@@ -48,11 +48,13 @@ int thread_cont = TRUE;
 void* ThreadFn(void *vParam);
 
 // TO DO: declare and initialize a mutex as a global variable
-pthread_mutex_t mutex;
+pthread_mutex_t mutex= PTHREAD_MUTEX_INITIALIZER;
+// pthread_mutex_init(&mutex, NULL); err?
 
 
 int main(int argc, char *argv[])
 {
+
 	srand(time(NULL));
 	clrscr();
 
