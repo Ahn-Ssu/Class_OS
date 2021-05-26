@@ -156,12 +156,12 @@ void* ThreadFn(void *vParam)
 
 		// TO DO: implement entry section
 		if(idx % 2 == 0){
-			pthread_mutex_lock(&(chopstick[ (idx+no_phil-1) % no_phil])); // left
+			pthread_mutex_lock(&(chopstick[ (idx+1) % no_phil])); // left
 			pthread_mutex_lock(&(chopstick[idx])); // right
 		}
 		else{
 			pthread_mutex_lock(&(chopstick[idx])); // right
-			pthread_mutex_lock(&(chopstick[ (idx+no_phil-1) % no_phil])); // left
+			pthread_mutex_lock(&(chopstick[ (idx+1) % no_phil])); // left
 			
 		}
 
