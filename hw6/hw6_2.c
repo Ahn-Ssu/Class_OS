@@ -173,7 +173,7 @@ void* ThreadFn(void *vParam)
 
 		// TO DO: implement exit section
 		
-		if(param->no_phil % 2 == 0){
+		if(param->thread_idx % 2 == 0){
 			pthread_mutex_unlock(&(chopstick[ (param->thread_idx+NO_PHIL-1) % NO_PHIL])); // left
 			pthread_mutex_unlock(&(chopstick[param->thread_idx])); // right
 		}
