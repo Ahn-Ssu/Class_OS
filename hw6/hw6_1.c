@@ -40,6 +40,7 @@ typedef struct {
 	int delay;
 
 	// TO DO: add fields to pass the vertical coordinates of the critical region
+	int vertica;
 
 } ThreadParam;
 int thread_cont = TRUE;
@@ -47,6 +48,7 @@ int thread_cont = TRUE;
 void* ThreadFn(void *vParam);
 
 // TO DO: declare and initialize a mutex as a global variable
+pthread_mutex_t mutex;
 
 
 int main(int argc, char *argv[])
@@ -85,6 +87,7 @@ int main(int argc, char *argv[])
 		param[i].delay = rand() % 300;
 
 		// TO DO: add code to store the vertical coordinates of the critical region in param[i]
+		param[i].vertica  = critical_top;
 
 		pthread_create(&tid[i], NULL, ThreadFn, &param[i]);
 	}
@@ -99,6 +102,7 @@ int main(int argc, char *argv[])
 		pthread_join(tid[i], NULL);
 
 	// TO DO: destroy mutex
+	pthread_mutex_destroy(&mutex);
 
 	clrscr();
 	gotoxy(1, 1);
@@ -115,6 +119,7 @@ void* ThreadFn(void *vParam)
 	int oldy = 1;
 	while(thread_cont){
 		// TO DO: implement entry section here 
+		pthread_mutex_lock(&mutex);
 
 		gotoxy(param->x, oldy);
 		putchar(' ');
@@ -124,7 +129,8 @@ void* ThreadFn(void *vParam)
 
 		fflush(stdout);
 
-		// TO DO: implement exit section here 
+		// TO DO: implement exit section here
+		pthread_mutex_unlock(&mutex);
 
 		oldy = y;
 		y++;
@@ -137,6 +143,8 @@ void* ThreadFn(void *vParam)
 	}
 
 	// TO DO: if current broke loop in the critical region, unlock mutex
+	pthread_mutex_unlock(&mutex);
+
 
 	return NULL;
 }
