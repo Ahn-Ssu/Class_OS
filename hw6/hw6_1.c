@@ -121,7 +121,11 @@ void* ThreadFn(void *vParam)
 	int oldy = 1;
 	while(thread_cont){
 		// TO DO: implement entry section here 
-		pthread_mutex_lock(&mutex);
+
+		if (y==param->vertica){
+			pthread_mutex_lock(&mutex);
+		}
+		
 
 		gotoxy(param->x, oldy);
 		putchar(' ');
@@ -132,7 +136,8 @@ void* ThreadFn(void *vParam)
 		fflush(stdout);
 
 		// TO DO: implement exit section here
-		pthread_mutex_unlock(&mutex);
+		if ( y==(param->screen_height - param->vertica))
+			pthread_mutex_unlock(&mutex);
 
 		oldy = y;
 		y++;
