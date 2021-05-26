@@ -171,15 +171,7 @@ void* ThreadFn(void *vParam)
 		usleep((rand() % 500 + 500) * 1000);
 
 		// TO DO: implement exit section
-		
-		// if(param->thread_idx % 2 == 0){
-		// 	pthread_mutex_unlock(&(chopstick[ (idx+no_phil-1) % no_phil])); // left
-		// 	pthread_mutex_unlock(&(chopstick[idx])); // right
-		// }
-		// else{
-			
-		// }
-
+		state[idx] = THINKING;
 		if(idx % 2 == 1){
 			pthread_mutex_unlock(&(chopstick[ (idx+1) % no_phil])); // left
 			pthread_mutex_unlock(&(chopstick[idx])); // right
@@ -188,7 +180,7 @@ void* ThreadFn(void *vParam)
 			pthread_mutex_unlock(&(chopstick[idx])); // right
 			pthread_mutex_unlock(&(chopstick[ (idx+1) % no_phil])); // left
 		}
-		state[idx] = THINKING;
+		
 		DisplayPhilosophers(state, no_phil, param->screen_width, param->screen_height);
 		usleep((rand() % 500 + 1000) * 1000);
 	}
