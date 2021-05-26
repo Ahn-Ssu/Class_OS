@@ -48,7 +48,7 @@ int thread_cont = TRUE;
 void* ThreadFn(void *vParam);
 
 // TO DO: declare and initialize a mutex as a global variable
-pthread_mutex_t mutex= PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 // pthread_mutex_init(&mutex, NULL); err?
 
 
@@ -145,7 +145,10 @@ void* ThreadFn(void *vParam)
 	}
 
 	// TO DO: if current broke loop in the critical region, unlock mutex
-	pthread_mutex_unlock(&mutex);
+	if (!thread_cont){
+		pthread_mutex_unlock(&mutex);
+	}
+	
 
 
 	return NULL;
