@@ -60,7 +60,8 @@ void* ThreadFn(void *vParam)
         usleep((rand() % 500 + 1000) * 1000);
 
         flag[idx] = 0;
-        usleep((rand() % 500 + 1000) * 1000);
+        if (idx % 2 == 0 ) usleep((rand() % 500 + 1000) * 1000);
+        else usleep((rand() % 500 + 1000) * 10000);
     }
 	
 
