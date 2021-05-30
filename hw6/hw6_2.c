@@ -187,11 +187,15 @@ void* ThreadFn(void *vParam)
 		// TO DO: implement exit section
 		state[idx] = THINKING;
 		if(idx % 2 == 1){
+			pthread_mutex_unlock(&(starv[ (idx+1) % no_phil]));
 			pthread_mutex_unlock(&(chopstick[ (idx+1) % no_phil])); // left
+			pthread_mutex_unlock(&(starv[(idx+no_phil-1)% no_phil]));
 			pthread_mutex_unlock(&(chopstick[idx])); // right
 		}
 		else{
+			pthread_mutex_unlock(&(starv[(idx+no_phil-1)% no_phil]));
 			pthread_mutex_unlock(&(chopstick[idx])); // right
+			pthread_mutex_unlock(&(starv[ (idx+1) % no_phil]));
 			pthread_mutex_unlock(&(chopstick[ (idx+1) % no_phil])); // left
 		}
 		pthread_mutex_unlock(&starv[idx]);
