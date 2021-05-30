@@ -40,7 +40,8 @@ typedef struct {
 	int delay;
 
 	// TO DO: add fields to pass the vertical coordinates of the critical region
-	int vertica;
+	// 해당 field가 각 스레드들의 progress를 보장해준다고 생각된다.
+	int vertica; 
 
 } ThreadParam;
 int thread_cont = TRUE;
@@ -50,6 +51,7 @@ void* ThreadFn(void *vParam);
 // TO DO: declare and initialize a mutex as a global variable
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 // pthread_mutex_init(&mutex, NULL); err?
+// 메인 함수 밖에서 함수를 호출하려는 동작을 하게 되면 C언어의 문법상 함수의 선언(declare)으로 컴파일러가 해석을 함
 
 
 int main(int argc, char *argv[])
