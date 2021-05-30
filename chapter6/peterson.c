@@ -54,6 +54,9 @@ void* ThreadFn(void *vParam)
         flag[idx] = 1;
         turn = (idx + 1)%2;
 
+        printf("현재 flag [%d, %d]\n",flag[0], flag[1]);
+        printf("현재 turn %d\n",turn);
+
         while( flag[idx] && turn ==(idx+1)%2);
 
         printf("Critical section I'm pthread % d\n", idx);
