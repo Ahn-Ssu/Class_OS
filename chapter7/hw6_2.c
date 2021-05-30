@@ -156,6 +156,7 @@ void* ThreadFn(void *vParam)
 
 	while(thread_cont){
 
+		state[idx] = HUNGRY;
 		// TO DO: implement entry section
 		if(idx % 2 == 0){
 			pthread_mutex_lock(&(chopstick[ (idx+1) % no_phil])); // left
