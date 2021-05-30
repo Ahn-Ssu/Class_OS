@@ -56,7 +56,8 @@ void* ThreadFn(void *vParam)
 
         while( flag[idx] && turn ==(idx+1)%2);
 
-        printf("Critical section I'm pthread % d", idx);
+        printf("Critical section I'm pthread % d\n", idx);
+        usleep((rand() % 500 + 1000) * 1000);
 
         flag[idx] = 0;
 
