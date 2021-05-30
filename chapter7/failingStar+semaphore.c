@@ -53,13 +53,14 @@ void* ThreadFn(void *vParam);
 
 // TO DO: declare and initialize a mutex as a global variable
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+sem_t sema;
 // pthread_mutex_init(&mutex, NULL); err?
 // 메인 함수 밖에서 함수를 호출하려는 동작을 하게 되면 C언어의 문법상 함수의 선언(declare)으로 컴파일러가 해석을 함
 
 
 int main(int argc, char *argv[])
-{
-
+{	
+	sem_init(&sema,0, 3);
 	srand(time(NULL));
 	clrscr();
 
@@ -85,8 +86,7 @@ int main(int argc, char *argv[])
 	
 	pthread_t tid[MAX_THREAD];
 	ThreadParam param[MAX_THREAD];
-	sem_t sema; 
-	sem_init(&sema,0, 3);
+	
 
 	for(int i = 0; i < no_thread; i++){
 		param[i].thread_idx = i;
