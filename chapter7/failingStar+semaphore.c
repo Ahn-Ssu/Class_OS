@@ -110,7 +110,7 @@ int main(int argc, char *argv[])
 		pthread_join(tid[i], NULL);
 
 	// TO DO: destroy mutex
-	pthread_mutex_destroy(&mutex);
+	sem_destroy(&sema);
 
 	clrscr();
 	gotoxy(1, 1);
