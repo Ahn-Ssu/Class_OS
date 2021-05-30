@@ -125,7 +125,6 @@ void* ThreadFn(void *vParam)
 
 	int y = 1;
 	int oldy = 1;
-	sem_t sema = param->semap;
 
 	while(thread_cont){
 		// TO DO: implement entry section here 
