@@ -60,9 +60,9 @@ void* ThreadFn(void *vParam)
         usleep((rand() % 500 + 1000) * 1000);
 
         flag[idx] = 0;
-        turn = (idx + 1)%2; // added
-        if (idx % 2 == 0 ) usleep((rand() % 500 + 1000) * 1000);
-        else usleep((rand() % 500 + 1000) * 10000);
+        turn = (idx + 1)%2; // added 이걸 더해서(?) 0101_00_1 같은 패턴이 생김, 안더하면 무조건 010101010101
+        if (idx % 2 == 0 ) usleep((rand() % 500 + 100) * 100);
+        else usleep((rand() % 500 + 1000) * 1000);
     }
 	
 
