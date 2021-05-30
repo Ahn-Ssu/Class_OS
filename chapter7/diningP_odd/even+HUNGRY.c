@@ -156,7 +156,12 @@ void* ThreadFn(void *vParam)
 
 	while(thread_cont){
 
-		state[idx] = HUNGRY;
+		// 숙제의 구현에 더해서 해당위치에 단순히 State를 HUNGRY로 설정하고 실행을 하면
+		// checkP - 함수에서 다음과 같은 에러가 발생한다. 
+		// if(state[i] == HUNGRY && state[prev] != EATING && state[next] != EATING)
+		// 실제 >> state[4] = TNINKING, state[0] = HUNGRY, state[1] = THINKING 
+		state[idx] = HUNGRY; 
+
 		// TO DO: implement entry section
 		if(idx % 2 == 0){
 			pthread_mutex_lock(&(chopstick[ (idx+1) % no_phil])); // left
