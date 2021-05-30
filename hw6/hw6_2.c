@@ -57,7 +57,6 @@ typedef struct {
 
 	int *state;						// pointer to pass state array to the thread function
 	pthread_mutex_t *chopstick;		// pointer to pass mutex array to the thread function
-	pthread_mutex_t *starv;		// *added* : pointer to pass mutex array to prevent starvation
 
 	int screen_width;
 	int screen_height;
@@ -90,13 +89,11 @@ int main(int argc, char *argv[])
 
 	int state[NO_PHIL] = { 0 };
 	pthread_mutex_t chopstick[NO_PHIL];
-	pthread_mutex_t starv[NO_PHIL]; // added for solving starvation
 
 	// TO DO: initialize state and chopstick
 	//  ???? state already initialize...
 	for (int i=0; i < NO_PHIL ; i ++){
 		pthread_mutex_init(&chopstick[i], NULL);
-		pthread_mutex_init(&starv[i], NULL); // added for solving starvation
 		state[i] = THINKING ;
 	}
 
@@ -111,7 +108,6 @@ int main(int argc, char *argv[])
 		// State는 해당 구현 내에서 적용된 부분으로 이것도 배열로 가져감
 		param[i].chopstick = chopstick;
 		param[i].state = state;
-		param[i].starv = starv;
 
 		param[i].screen_width = screen_width;
 		param[i].screen_height = screen_height;
@@ -156,25 +152,19 @@ void* ThreadFn(void *vParam)
 	int no_phil = param->no_phil;
 	int *state = param->state;
 	pthread_mutex_t *chopstick = param->chopstick;
-	pthread_mutex_t *starv = param->starv;
 
 	
 
 	while(thread_cont){
 
 		// TO DO: implement entry section
-		pthread_mutex_lock(&starv[idx]);
 		if(idx % 2 == 0){
  
-			pthread_mutex_lock(&(starv[ (idx+1) % no_phil]));
 			pthread_mutex_lock(&(chopstick[ (idx+1) % no_phil])); // left
-			pthread_mutex_lock(&(starv[(idx+no_phil-1)% no_phil]));
 			pthread_mutex_lock(&(chopstick[idx])); // right
 		}
 		else{
-			pthread_mutex_lock(&(starv[(idx+no_phil-1)% no_phil]));
 			pthread_mutex_lock(&(chopstick[idx])); // right
-			pthread_mutex_lock(&(starv[ (idx+1) % no_phil]));
 			pthread_mutex_lock(&(chopstick[ (idx+1) % no_phil])); // left
 		}
 
@@ -186,17 +176,12 @@ void* ThreadFn(void *vParam)
 
 		// TO DO: implement exit section
 		state[idx] = THINKING;
-		pthread_mutex_unlock(&starv[idx]);
 		if(idx % 2 == 1){
-			pthread_mutex_unlock(&(starv[ (idx+1) % no_phil]));
 			pthread_mutex_unlock(&(chopstick[ (idx+1) % no_phil])); // left
-			pthread_mutex_unlock(&(starv[(idx+no_phil-1)% no_phil]));
 			pthread_mutex_unlock(&(chopstick[idx])); // right
 		}
 		else{
-			pthread_mutex_unlock(&(starv[(idx+no_phil-1)% no_phil]));
 			pthread_mutex_unlock(&(chopstick[idx])); // right
-			pthread_mutex_unlock(&(starv[ (idx+1) % no_phil]));
 			pthread_mutex_unlock(&(chopstick[ (idx+1) % no_phil])); // left
 		}
 		
