@@ -57,6 +57,7 @@ typedef struct {
 
 	int *state;						// pointer to pass state array to the thread function
 	pthread_mutex_t *chopstick;		// pointer to pass mutex array to the thread function
+	pthread_mutex_t *starv;		// *added* : pointer to pass mutex array to prevent starvation
 
 	int screen_width;
 	int screen_height;
@@ -89,12 +90,14 @@ int main(int argc, char *argv[])
 
 	int state[NO_PHIL] = { 0 };
 	pthread_mutex_t chopstick[NO_PHIL];
+	pthread_mutex_t starv[NO_PHIL]; // added for solving starvation
 
 	// TO DO: initialize state and chopstick
 	//  ???? state already initialize...
 	for (int i=0; i < NO_PHIL ; i ++){
 		pthread_mutex_init(&chopstick[i], NULL);
-		state[i] = 0 ;
+		pthread_mutex_init(&starv[i], NULL); // added for solving starvation
+		state[i] = THINKING ;
 	}
 
 	DisplayPhilosophers(state, NO_PHIL, screen_width, screen_height);
@@ -104,8 +107,11 @@ int main(int argc, char *argv[])
 		param[i].no_phil = NO_PHIL;
 
 		// TO DO: store state and chopstick in param[i]
+		// 젓가락은 공유 RSS이며, 한 원탁에 앉아 자리하고 있는 철학자는 왼편과 오른편을 유동적으로 잡아야하기 때문에 배열주소를 가져감 
+		// State는 해당 구현 내에서 적용된 부분으로 이것도 배열로 가져감
 		param[i].chopstick = chopstick;
 		param[i].state = state;
+		param[i].starv = starv;
 
 		param[i].screen_width = screen_width;
 		param[i].screen_height = screen_height;
@@ -150,17 +156,25 @@ void* ThreadFn(void *vParam)
 	int no_phil = param->no_phil;
 	int *state = param->state;
 	pthread_mutex_t *chopstick = param->chopstick;
+	pthread_mutex_t *starv = param->starv;
+
 	
 
 	while(thread_cont){
 
 		// TO DO: implement entry section
+		pthread_mutex_lock(&starv[idx]);
 		if(idx % 2 == 0){
+
+			pthread_mutex_lock(&(starv[ (idx+1) % no_phil]));
 			pthread_mutex_lock(&(chopstick[ (idx+1) % no_phil])); // left
+			pthread_mutex_lock(&(starv[(idx+no_phil-1)% no_phil]));
 			pthread_mutex_lock(&(chopstick[idx])); // right
 		}
 		else{
+			pthread_mutex_lock(&(starv[(idx+no_phil-1)% no_phil]));
 			pthread_mutex_lock(&(chopstick[idx])); // right
+			pthread_mutex_lock(&(starv[ (idx+1) % no_phil]));
 			pthread_mutex_lock(&(chopstick[ (idx+1) % no_phil])); // left
 		}
 
@@ -180,6 +194,7 @@ void* ThreadFn(void *vParam)
 			pthread_mutex_unlock(&(chopstick[idx])); // right
 			pthread_mutex_unlock(&(chopstick[ (idx+1) % no_phil])); // left
 		}
+		pthread_mutex_unlock(&starv[idx]);
 		
 		DisplayPhilosophers(state, no_phil, param->screen_width, param->screen_height);
 		usleep((rand() % 500 + 1000) * 1000);
@@ -223,8 +238,8 @@ int CheckPhilosophers(int state[], int no_phil)
 	int ret = TRUE;
 
 	for(i = 0; i < no_phil; i++){
-		int prev = (i + no_phil - 1) % no_phil;
-		int next = (i + 1) % no_phil;
+		int prev = (i + no_phil - 1) % no_phil; // 코드 기준으로 왼편에(전에) 있었던 친구 체크
+		int next = (i + 1) % no_phil;			// 코드 기준으로 오른편(다음에) 있는 친구 체크 
 
 		// check if neighboring philosophers are eating together
 		if(state[i] == EATING && state[next] == EATING){
