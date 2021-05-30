@@ -165,7 +165,7 @@ void* ThreadFn(void *vParam)
 		// TO DO: implement entry section
 		pthread_mutex_lock(&starv[idx]);
 		if(idx % 2 == 0){
-
+ 
 			pthread_mutex_lock(&(starv[ (idx+1) % no_phil]));
 			pthread_mutex_lock(&(chopstick[ (idx+1) % no_phil])); // left
 			pthread_mutex_lock(&(starv[(idx+no_phil-1)% no_phil]));
@@ -186,6 +186,7 @@ void* ThreadFn(void *vParam)
 
 		// TO DO: implement exit section
 		state[idx] = THINKING;
+		pthread_mutex_unlock(&starv[idx]);
 		if(idx % 2 == 1){
 			pthread_mutex_unlock(&(starv[ (idx+1) % no_phil]));
 			pthread_mutex_unlock(&(chopstick[ (idx+1) % no_phil])); // left
@@ -198,7 +199,7 @@ void* ThreadFn(void *vParam)
 			pthread_mutex_unlock(&(starv[ (idx+1) % no_phil]));
 			pthread_mutex_unlock(&(chopstick[ (idx+1) % no_phil])); // left
 		}
-		pthread_mutex_unlock(&starv[idx]);
+		
 		
 		DisplayPhilosophers(state, no_phil, param->screen_width, param->screen_height);
 		usleep((rand() % 500 + 1000) * 1000);
