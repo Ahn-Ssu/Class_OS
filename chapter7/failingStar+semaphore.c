@@ -44,7 +44,6 @@ typedef struct {
 	// 해당 field가 각 스레드들의 progress를 보장해준다고 생각된다.
 	int vertica; 
 
-	sem_t *semap;
 
 } ThreadParam;
 int thread_cont = TRUE;
@@ -98,9 +97,6 @@ int main(int argc, char *argv[])
 		// TO DO: add code to store the vertical coordinates of the critical region in param[i]
 		param[i].vertica  = critical_top;
 
-		// added
-		param[i].semap = sema;
-
 		pthread_create(&tid[i], NULL, ThreadFn, &param[i]);
 	}
 
@@ -129,7 +125,7 @@ void* ThreadFn(void *vParam)
 
 	int y = 1;
 	int oldy = 1;
-	sem_t sema = *(param->semap);
+	sem_t sema = param->semap;
 
 	while(thread_cont){
 		// TO DO: implement entry section here 
