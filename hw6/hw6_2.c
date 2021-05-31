@@ -137,6 +137,9 @@ int main(int argc, char *argv[])
 
 	// TO DO: destroy mutexes
 	pthread_mutex_destroy(&mutex);
+	// 과제에 아랫줄 ㅇ안 넣음
+	for(int i = 0; i < NO_PHIL; i++)
+		pthread_mutex_destroy(&chopstick[i]);
 
 	clrscr();
 	printf("Bye!\n");
