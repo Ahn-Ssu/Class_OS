@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
 
 	Philosophers_Display(&dp, screen_width, screen_height);
 
-	for(int i = 0; i < no_phil; i++){
+	for(int i = 0; i < 1; i++){
 		param[i].phil_idx = i;
 		param[i].no_phil = no_phil;
 
@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
 		param[i].screen_height = screen_height;
 
 		// TO DO: create thread using ThreadFn and param[i] 
-		pthread_create(&tid[i], NULL, ThreadFn, &dp);
+		pthread_create(&tid[i], NULL, ThreadFn, &param[i]);
 	}
 
 	PrintXY(1, 1, "Press 'q' to quit!\n");
