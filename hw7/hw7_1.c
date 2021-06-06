@@ -33,8 +33,11 @@ void Philosophers_Init(Philosophers *dp, int no_phil)
 
 	// TO DO: initialize mutex and condition variables
 	pthread_mutex_init(&(dp->mutex) , NULL);
-	for (int i = 0 ; i < dp->no_phil ; i++)
+	for (int i = 0 ; i < dp->no_phil ; i++){
 		pthread_cond_init(&(dp->self[i]), NULL);
+		dp->state[i] = THINKING;
+	}
+		
 
 }
 
