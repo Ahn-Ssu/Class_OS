@@ -32,17 +32,18 @@ void Philosophers_Init(Philosophers *dp, int no_phil)
 	dp->no_phil = no_phil;
 
 	// TO DO: initialize mutex and condition variables
-
-
+	pthread_mutex_init(&(dp->mutex) , NULL);
+	for (int i = 0 ; i < dp->no_phil ; i++)
+		pthread_cond_init(&(dp->self[i]), NULL);
 
 }
 
 void Philosophers_Destroy(Philosophers *dp)
 {
 	// TO DO: destroy mutex and condition vars
-
-
-
+	pthread_mutex_destroy(&(dp->mutex));
+	for (int i = 0 ; i < dp->no_phil ; i ++)
+		pthread_cond_destroy(&(dp->self[i]));
 
 	dp->no_phil = 0;		// for safety
 }
@@ -51,8 +52,14 @@ void Philosophers_PickUp(Philosophers *dp, int i)
 {
 	// TO DO: implement this function
 	// 		this function should be mutually exclusive
+	pthread_mutex_lock(&(dp->mutex));
+	
+	// dp->state[i] = HUNGRY;
+	Philosophers_Test(dp, i); 
+	if (dp->state != EATING)
+		pthread_cond_wait(&(dp->self[i]), &(dp->mutex));
 
-
+	pthread_mutex_unlock(&(dp->mutex));
 
 }
 
@@ -60,7 +67,14 @@ void Philosophers_PutDown(Philosophers *dp, int i)
 {
 	// TO DO: implement this function
 	// 		this function should be mutually exclusive
+	pthread_mutex_lock(&(dp->mutex));
+	
+	dp->state[i] = THINKING;
+	Philosophers_Test(dp, (i+1)%dp->no_phil); 
+	Philosophers_Test(dp, (i-1+dp->no_phil)%dp->no_phil); 
+	
 
+	pthread_mutex_unlock(&(dp->mutex));
 
 
 }
@@ -68,6 +82,15 @@ void Philosophers_PutDown(Philosophers *dp, int i)
 void Philosophers_Test(Philosophers *dp, int i)
 {
 	// TO DO: implement this function
+	if( 
+		dp->state[(i-1+dp->no_phil)%dp->no_phil] != EATING &&
+		// dp->state[i] == HUNGRY &&
+		dp->state[(i+1)%dp->no_phil] != EATING
+	) {
+		dp->state[i] = EATING;
+		pthread_cond_signal(&(dp->self[i]));
+
+	}
 	
 
 

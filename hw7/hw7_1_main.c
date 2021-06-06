@@ -19,7 +19,7 @@
 
 #include "Console.h"
 
-#include "Philosophers.h"
+#include "hw7_1.h"
 
 
 #define DEFAULT_NO_PHIL 5
@@ -54,7 +54,8 @@ int main(int argc, char *argv[])
 	ThreadParam param[MAX_PHIL];
 
 	Philosophers dp;
-	// TO DO: initialize dp using no_phil 
+	// TO DO: initialize dp using no_phil
+	Philosophers_Init(&dp, no_phil);
 
 	Philosophers_Display(&dp, screen_width, screen_height);
 
@@ -67,6 +68,7 @@ int main(int argc, char *argv[])
 		param[i].screen_height = screen_height;
 
 		// TO DO: create thread using ThreadFn and param[i] 
+		pthread_create(&tid[i], NULL, ThreadFn, &dp);
 	}
 
 	PrintXY(1, 1, "Press 'q' to quit!\n");
@@ -86,9 +88,12 @@ int main(int argc, char *argv[])
 	thread_cont = FALSE;
 
 	// TO DO: wait for the threads
-
+	for(int i = 0; i < no_phil; i++){
+		pthread_join(tid[i], NULL);
+	}
 
 	// TO DO: destroy dp
+	Philosophers_Destroy(&dp);
 
 	clrscr();
 	printf("Bye!\n");
