@@ -56,7 +56,7 @@ void Philosophers_PickUp(Philosophers *dp, int i)
 	
 	// dp->state[i] = HUNGRY;
 	Philosophers_Test(dp, i); 
-	if (dp->state != EATING)
+	if (dp->state[i] != EATING)
 		pthread_cond_wait(&(dp->self[i]), &(dp->mutex));
 
 	pthread_mutex_unlock(&(dp->mutex));
