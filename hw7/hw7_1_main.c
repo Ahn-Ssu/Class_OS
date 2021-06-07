@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
 
 	Philosophers_Display(&dp, screen_width, screen_height);
 
-	for(int i = 0; i < 1; i++){
+	for(int i = 0; i < no_phil; i++){
 		param[i].phil_idx = i;
 		param[i].no_phil = no_phil;
 
