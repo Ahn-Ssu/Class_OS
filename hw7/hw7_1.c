@@ -57,7 +57,7 @@ void Philosophers_PickUp(Philosophers *dp, int i)
 	// 		this function should be mutually exclusive
 	pthread_mutex_lock(&(dp->mutex));
 	
-	// dp->state[i] = HUNGRY;
+	dp->state[i] = HUNGRY;
 	Philosophers_Test(dp, i); 
 	if (dp->state[i] != EATING)
 		pthread_cond_wait(&(dp->self[i]), &(dp->mutex));
@@ -87,7 +87,7 @@ void Philosophers_Test(Philosophers *dp, int i)
 	// TO DO: implement this function
 	if( 
 		dp->state[(i-1+dp->no_phil)%dp->no_phil] != EATING &&
-		// dp->state[i] == HUNGRY &&
+		dp->state[i] == HUNGRY &&
 		dp->state[(i+1)%dp->no_phil] != EATING
 	) {
 		dp->state[i] = EATING;
