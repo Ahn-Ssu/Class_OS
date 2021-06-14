@@ -142,14 +142,25 @@ void ParseCommand(char *command, int *argc, char *argv[])
     for (int i = 0; i < MAX_ARG; i++)
         argv[i] = 0;
 
-    char *p = strtok(command, " ");
+    // char *strtok(char *_String, char const *"Delimiter);
+    // 포인터 리턴 : strtok(자를 src String, 기준이 되는 문자열);
+    char *p = strtok(command, " "); // " " 공백 문자를 기준으로 문자열을 자름, 포인터 반환
     int count = 0;
 
     while (p != NULL)
     {
         argv[count] = p;
 
-        p = strtok(NULL, " ");
+        /* 
+            NULL을 넣었을 때는 직전 strtok 함수에서 처리했던 문자열에서
+            잘린 문자열만큼 다음 문자로 이동한 뒤 다음 문자열을 자릅니다.
+            만약 ptr = strtok(ptr, " ");처럼 잘린 문자열의 포인터를
+            다시 넣었을 때는 다음 문자로 이동하지 못하고 처음에 나오는 문자열만 계속 자르게 됩니다.
+
+            ! strtok 함수는 문자열을 새로 생성해서 반환하는 것이 아니라 자르는 부분을 널 문자(NULL)로 채운 뒤 잘린 문자열의 포인터를 반환합니다.
+            따라서 원본 문자열의 내용을 바꾸므로 사용에 주의해야 합니다.
+         */
+        p = strtok(NULL, " "); 
         count++;
     }
     *argc = count;

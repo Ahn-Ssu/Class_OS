@@ -18,6 +18,7 @@
         "__locale": "c",
         "errno.h": "c",
         "unistd.h": "c",
-        "mman.h": "c"
+        "mman.h": "c",
+        "hw7_1.h": "c"
     }
 }
