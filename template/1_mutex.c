@@ -10,9 +10,6 @@
         5) 반납 : pthread_mutex_destroy(&mutex);
 */
 
-
-
-
 pthread_mutex_t myMutex;        // 뮤텍스 타입 
 pthread_mutexattr_t myMuAttr;   // 원래 뮤텍스 행동양식 : 이거 보통 걍 NULL로 대체 
 
