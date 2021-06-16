@@ -41,7 +41,10 @@ typedef struct {
 
 	// TO DO: add fields to pass the vertical coordinates of the critical region
 	// 해당 field가 각 스레드들의 progress를 보장해준다고 생각된다.
-	int vertica; 
+	int critical_top;
+	int critical_bottom; 
+
+	int *waiting;
 
 } ThreadParam;
 int thread_cont = TRUE;
@@ -83,6 +86,9 @@ int main(int argc, char *argv[])
 	pthread_t tid[MAX_THREAD];
 	ThreadParam param[MAX_THREAD];
 
+	int *waiting;
+	waiting = malloc(sizeof(int)*no_thread);
+
 	for(int i = 0; i < no_thread; i++){
 		param[i].thread_idx = i;
 		param[i].no_thread = no_thread;
@@ -91,7 +97,12 @@ int main(int argc, char *argv[])
 		param[i].delay = rand() % 300;
 
 		// TO DO: add code to store the vertical coordinates of the critical region in param[i]
-		param[i].vertica  = critical_top;
+		param[i].critical_top  = critical_top;
+		param[i].critical_bottom  = critical_bottom;
+
+		waiting[i] = FALSE;
+		param[i].waiting = waiting;
+
 
 		pthread_create(&tid[i], NULL, ThreadFn, &param[i]);
 	}
@@ -121,11 +132,21 @@ void* ThreadFn(void *vParam)
 
 	int y = 1;
 	int oldy = 1;
+	int key = FALSE;
+	int idx = param->thread_idx;
+
 	while(thread_cont){
 		// TO DO: implement entry section here 
 
-		if (y==param->vertica){
-			pthread_mutex_lock(&mutex);
+		if (y==param->critical_top){
+			// pthread_mutex_lock(&mutex);
+			param->waiting[idx] = TRUE;
+			key = TRUE;
+			while( param->waiting[idx] && key !=0){
+				key = pthread_mutex_trylock(&mutex);
+				pthread_mutex_unlock(&mutex);
+			}
+			param->waiting[idx]  = FALSE;
 		}
 		
 
@@ -138,8 +159,17 @@ void* ThreadFn(void *vParam)
 		fflush(stdout);
 
 		// TO DO: implement exit section here
-		if ( y==(param->screen_height - param->vertica))
-			pthread_mutex_unlock(&mutex);
+		if ( y==(param->critical_bottom)){
+			// pthread_mutex_unlock(&mutex);
+			int find; 
+			find = (idx+1) % param->no_thread;
+			while((find != idx) && param->waiting[find] != TRUE)
+				find = (find+1)%param->no_thread;
+			
+			if (find!=idx)
+				param->waiting[find] = FALSE;
+		}
+			
 
 		oldy = y;
 		y++;
