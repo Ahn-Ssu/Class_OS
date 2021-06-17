@@ -79,11 +79,11 @@ int main(int argc, char *argv[])
 	
 	sleep(10);
 
-	sem_post(&buffer.empty);
-	sem_post(&buffer.empty);
 	// terminate threads
 	thread_cont = FALSE;
 
+	sem_post(&buffer.empty);
+	sem_post(&buffer.empty);
 	// wait for threads
 	pthread_join(producer_id, NULL);
 	pthread_join(consumer_id, NULL);
@@ -118,7 +118,7 @@ void Buffer_Destroy(Buffer *buf)
 	sem_destroy(&buf->full);
 	pthread_mutex_destroy(&buf->mutex);
 
-	//free(buf->buffer);
+//	free(buf->buffer);
 	buf->size = 0;
 }
 
