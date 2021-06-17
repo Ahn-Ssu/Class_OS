@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
 	if (ftruncate(shm_fd, buffer_size) == -1)
 	{
 		perror("ftruncate");
-		exit(0);
+		exit(0);    
 	}
 	// errExit("ftruncate");
 

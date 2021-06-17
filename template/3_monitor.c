@@ -30,7 +30,7 @@ int main(){
     pthread_cond_init(&cond, NULL);
 
     /*
-        2. cond var 잠금 
+        2. cond var 잠금  
             1) pthread_cond_wait(), 뮤텍스랑 같이 잠궈버림
     */
    pthread_mutex_lock(&mutex);
@@ -39,7 +39,7 @@ int main(){
     /*
         3. cond var 해제 
             1) pthread_cond_signal()
-    */
+    */ 
    pthread_cond_signal(&cond);
    pthread_mutex_unlock(&mutex);
 
