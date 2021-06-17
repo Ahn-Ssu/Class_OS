@@ -176,7 +176,8 @@ void* ThreadFn(void *vparam)
 		//*(param->sum) += data[i];
 		sum += data[i];
 
-	*(param->sum) += sum;
+//	*(param->sum) += sum;
+	__atomic_add_fetch(param->sum, sum, __ATOMIC_SEQ_CST);
 	return NULL;
 }
 
