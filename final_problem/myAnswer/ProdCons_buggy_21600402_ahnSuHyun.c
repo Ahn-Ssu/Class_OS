@@ -79,6 +79,8 @@ int main(int argc, char *argv[])
 	
 	sleep(10);
 
+	sem_post(&buffer.empty);
+	sem_post(&buffer.empty);
 	// terminate threads
 	thread_cont = FALSE;
 
